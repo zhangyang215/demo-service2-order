@@ -12,13 +12,14 @@ spring:
       #   serviceId: service-config
 
 mybatis:
-  mapperLocations: classpath*:mapper/*Mapper.xml
+  mapperLocations: classpath:mapper/*Mapper.xml
 feign:
   hystrix:
     enabled: true
 logging:
   level:
     com.demo2.order: debug
+    com.demo2.support: debug
     
 ---
 spring:
