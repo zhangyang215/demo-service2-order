@@ -3,14 +3,6 @@ spring:
     name: service-order
   profiles:
       active: dev
-  cloud:
-    config:
-      uri: ${GIT_URL:http://localhost:9000/}
-      failFast: true
-      # discovery:
-      #   enabled: true
-      #   serviceId: service-config
-
 mybatis:
   mapperLocations: classpath*:mapper/*Mapper.xml
 feign:
@@ -20,10 +12,15 @@ logging:
   level:
     com.demo2.order: debug
     com.demo2.support: DEBUG
-    
 ---
 spring:
   profiles: dev
+  cloud:
+    config:
+      failFast: false
+      discovery:
+        enabled: true
+        serviceId: service-config
   sleuth:
     enabled: false
   datasource:
@@ -44,7 +41,6 @@ spring:
     timeout: 1000
 server:
   port: 9005
-
 eureka:
   client:
     serviceUrl:
@@ -52,13 +48,9 @@ eureka:
 ---
 spring:
   profiles: docker
-
+  cloud:
+    config:
+      uri: ${GIT_URL}
+      failFast: true
 server:
   port: ${SERVICE_PORT:9005}
-
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: ${REGISTRY_URL}
