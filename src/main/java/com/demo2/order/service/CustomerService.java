@@ -3,6 +3,8 @@
  */
 package com.demo2.order.service;
 
+import java.util.List;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,11 +37,22 @@ public interface CustomerService {
 	 */
 	@GetMapping("orm/customer/load")
 	public Customer load(@RequestParam("id")long id);
-	
+	/**
+	 * @param ids
+	 * @return
+	 */
+	@GetMapping("orm/customer/loadMore")
+	public List<Customer> loadMore(@RequestParam("ids")List<Long> ids);
 	/**
 	 * @param id
 	 * @return the address of the id
 	 */
 	@GetMapping("orm/customer/loadAddress")
 	public Address loadAddress(@RequestParam("id")long id);
+	/**
+	 * @param ids the list of ids of the addresses
+	 * @return the list of addresses
+	 */
+	@GetMapping("orm/customer/loadAddresses")
+	public List<Address> loadAddresses(@RequestParam("ids")List<Long> ids);
 }

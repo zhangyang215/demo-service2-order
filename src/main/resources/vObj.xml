@@ -1,32 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <vobjs>
-  <vo class="com.demo2.order.entity.Customer" tableName="Customer">
-    <property name="id" column="id" isPrimaryKey="true"></property>
-    <property name="name" column="name"></property>
-    <property name="sex" column="sex"></property>
-    <property name="birthday" column="birthday"></property>
-    <property name="identification" column="identification"></property>
-    <property name="phone_number" column="phone_number"></property>
-    <join name="addresses" joinKey="customer_id" joinType="oneToMany" isAggregation="true" class="com.demo2.order.entity.Address"></join>
-  </vo>
-  <vo class="com.demo2.order.entity.Address" tableName="Address">
-  	<property name="id" column="id" isPrimaryKey="true"></property>
-  	<property name="customer_id" column="customer_id"></property>
-  	<property name="country" column="country"></property>
-  	<property name="province" column="province"></property>
-  	<property name="city" column="city"></property>
-  	<property name="zone" column="zone"></property>
-  	<property name="address" column="address"></property>
-  	<property name="phone_number" column="phone_number"></property>
-  </vo>
-  <vo class="com.demo2.order.entity.Product" tableName="Product">
-    <property name="id" column="id" isPrimaryKey="true"></property>
-    <property name="name" column="name"></property>
-    <property name="price" column="price"></property>
-    <property name="unit" column="unit"></property>
-    <property name="classify" column="classify"></property>
-    <property name="supplier_id" column="supplier_id"></property>
-  </vo>
   <vo class="com.demo2.order.entity.Order" tableName="Order">
   	<property name="id" column="id" isPrimaryKey="true"></property>
   	<property name="customer_id" column="customer_id"></property>
@@ -34,9 +7,13 @@
   	<property name="amount" column="amount"></property>
   	<property name="order_time" column="order_time"></property>
   	<property name="flag" column="flag"></property>
-  	<join name="customer" joinKey="customer_id" joinType="manyToOne" class="com.demo2.order.entity.Customer"></join>
-  	<join name="address" joinKey="address_id" joinType="manyToOne" class="com.demo2.order.entity.Address"></join>
-  	<join name="orderItems" joinKey="order_id" joinType="oneToMany" isAggregation="true" class="com.demo2.order.entity.OrderItem"></join>
+    <ref name="customer" refKey="customer_id" refType="manyToOne" 
+      bean="com.demo2.order.service.CustomerService" method="load" listMethod="loadMore">
+    </ref>
+    <ref name="address" refKey="address_id" refType="manyToOne" 
+      bean="com.demo2.order.service.CustomerService" method="loadAddress" listMethod="loadAddresses">
+    </ref>
+    <join name="orderItems" joinKey="order_id" joinType="oneToMany" isAggregation="true" class="com.demo2.order.entity.OrderItem"></join>
   </vo>
   <vo class="com.demo2.order.entity.OrderItem" tableName="OrderItem">
   	<property name="id" column="id" isPrimaryKey="true"></property>
@@ -45,6 +22,8 @@
   	<property name="quantity" column="quantity"></property>
   	<property name="price" column="price"></property>
   	<property name="amount" column="amount"></property>
-  	<join name="product" joinKey="product_id" joinType="manyToOne" class="com.demo2.order.entity.Product"></join>
+    <ref name="product" refKey="product_id" refType="manyToOne" 
+      bean="com.demo2.order.service.ProductService" method="getProduct" listMethod="getProductList">
+    </ref>
   </vo>
 </vobjs>
